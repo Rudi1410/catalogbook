@@ -1,32 +1,21 @@
-from save_load import load_books, save_books
-from add_book import add_book
-from list_books import list_books
-from search_book import search_book
+import json
+import os
 
-def main():
-    books = load_books()
+FILE_PATH = "books.json"
 
-    while True:
-        print("\n=== MENU KATALOG BUKU ===")
-        print("1. Tambah Buku")
-        print("2. Lihat Daftar Buku")
-        print("3. Cari Buku")
-        print("4. Keluar dan Simpan")
+def load_books():
+    if os.path.exists(FILE_PATH):
+        try:
+            with open(FILE_PATH, "r") as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            print("File rusak atau kosong. Memulai dengan katalog kosong.")
+            return []
+    return []
 
-        pilihan = input("Pilih menu (1/2/3/4): ").strip()
-
-        if pilihan == "1":
-            books = add_book(books)
-        elif pilihan == "2":
-            list_books(books)
-        elif pilihan == "3":
-            search_book(books)
-        elif pilihan == "4":
-            save_books(books)
-            print("📚 Katalog disimpan. Terima kasih!")
-            break
-        else:
-            print("❌ Pilihan tidak valid. Coba lagi.")
-
-if __name__ == "__main__":
-    main()
+def save_books(books):
+    try:
+        with open(FILE_PATH, "w") as file:
+            json.dump(books, file, indent=4)
+    except Exception as e:
+        print(f"Gagal menyimpan data: {e}")
