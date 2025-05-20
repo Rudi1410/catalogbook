@@ -4,4 +4,4 @@ def list_books(books):
     else:
         print("\nDaftar Buku:")
         for idx, book in enumerate(books, start=1):
-            print(f"{idx}. Judul: {book['judul']} | Penulis: {book['penulis']}")
+            print(f"{idx}. Judul: {book['title']} | Penulis: {book['author']} | Tahun: {book['year']}")
